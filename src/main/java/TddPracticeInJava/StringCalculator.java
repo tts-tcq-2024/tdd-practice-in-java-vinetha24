@@ -53,7 +53,7 @@ public class StringCalculator {
     onlyPositiveNumber.append("0");
 
     for (Character inputChar : consoleInput.toCharArray()) {
-       extractPositiveandNegativeNumbers(negativeNumber, onlyPositiveNumber, prevChar, inputChar);
+      prevChar = extractPositiveandNegativeNumbers(negativeNumber, onlyPositiveNumber, prevChar, inputChar);
     }
     calculateSum(onlyPositiveNumber);
     throwExceptionforNegativeNumbers(negativeNumber);
@@ -67,16 +67,16 @@ public class StringCalculator {
    * @param inputChar
    * @return
    */
-  private static void extractPositiveandNegativeNumbers(StringBuilder negativeNumber,
+  private static Character extractPositiveandNegativeNumbers(StringBuilder negativeNumber,
       StringBuilder onlyPositiveNumber, Character prevChar, Character inputChar) {
-    if (isPositiveNumber(inputChar,prevChar)) {
+    if (isPostiveNumber(inputChar,prevChar)) {
       appendPositiveNumbers(inputChar, prevChar, onlyPositiveNumber);
     }
     else if (isNegativeSign(prevChar)) {
       negativeNumber.append(prevChar + inputChar + ',');
     }
     prevChar = inputChar;
-    
+    return prevChar;
   }
 
   /**
@@ -84,10 +84,9 @@ public class StringCalculator {
    * @param prevChar
    * @return
    */
-  private static boolean isPositiveNumber(Character inputChar, Character prevChar) {
+  private static boolean isPostiveNumber(Character inputChar, Character prevChar) {
     return Character.isDigit(inputChar) && !isNegativeSign(prevChar);
   }
-  
 
 
   /**
