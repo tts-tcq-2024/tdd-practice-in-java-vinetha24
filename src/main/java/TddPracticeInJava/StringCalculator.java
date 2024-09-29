@@ -55,28 +55,28 @@ public class StringCalculator {
    * @param numberArray
    */
   private static void calculateSum(String[] numberArray) {
-    for (String number : numberArray) {     
-      int num = Integer.parseInt(number);
-      checkForValidNumbers(num);
+    for (String numberObj : numberArray) {     
+      int number = Integer.parseInt(number);
+      checkForValidNumbers(number);
     }
   }
 
   /**
-   * @param num
+   * @param number
    */
-  private static void checkForValidNumbers(int num) {
-    if (!checkandStoreNegativenumbers(num) && (num < 1000)) {
-      sum = sum + num;
+  private static void checkForValidNumbers(int number) {
+    if (!checkandStoreNegativenumbers(number) && (number < 1000)) {
+      sum = sum + number;
     }
   }
 
   /**
-   * @param num
+   * @param number
    * @return
    */
-  private static boolean checkandStoreNegativenumbers(int num) {
-    if (num < 0) {
-      negativeNumList.add(num);
+  private static boolean checkandStoreNegativenumbers(int number) {
+    if (number < 0) {
+      negativeNumList.add(number);
       return true;
     }
     return false;
