@@ -79,4 +79,13 @@ public class StringCalculatorTest {
          objUnderTest.add(input);
 
     }
+    @Test
+    public void ExpectSumWithAnyDelimiterLength() throws Exception{
+      int expectedResult = 15;
+      String input = "//*\n12***3";
+      StringCalculator objUnderTest = new StringCalculator();
+      int result = objUnderTest.add(input);
+
+    assertEquals(expectedResult,result);
+    }
 }
