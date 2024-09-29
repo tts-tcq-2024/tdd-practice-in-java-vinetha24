@@ -2,153 +2,95 @@ package TddPracticeInJava;
 
 public class StringCalculator {
 
-  private static int sum;
+  public static List<Integer> negativeNumList ;
+  public static int sum ;
 
 
-  public static int add(String consoleInput) throws Exception {
-    sum = 0;
-
-
-    if (consoleInput == null || consoleInput.equals("")) {
+  /**
+   * @param inputString - input string to calculate sum
+   * @return sum
+   * @throws Exception 
+   */
+  public static int add(String inputString) throws Exception {
+    sum = 0; 
+    negativeNumList = new ArrayList();
+    
+    if (inputString.equals("")) {
       return sum;
     }
-    else {
-      return handleAddforValidInput(consoleInput);
+    handleStringwithDelimiter(inputString);
+    if(!negativeNumList.isEmpty()) {
+      throw new Exception("The negative numbers are " + negativeNumList.toString());
     }
-  }
-
-
-  /**
-   * @param consoleInput
-   * @throws Exception 
-   * @throws NumberFormatException
-   */
-  private static int handleAddforValidInput(String consoleInput) throws  Exception {
-    return checkLengthEqualsOne(consoleInput) ? Integer.parseInt(consoleInput) : handleAddProcess(consoleInput);
-  }
-
-
-  /**
-   * @param consoleInput
-   * @return
-   * @throws Exception 
-   */
-  private static int handleAddProcess(String consoleInput) throws Exception {
-    StringBuilder negativeNumber = new StringBuilder();
-    StringBuilder onlyPositiveNumber = new StringBuilder();
-    extractAndAddOnlyNumber(negativeNumber, onlyPositiveNumber, consoleInput);
     return sum;
   }
 
-
   /**
-   * @param negativeNumber
-   * @param onlyNumber
-   * @param consoleInput
-   * @throws Exception 
+   * @param inputString
    */
-  private static void extractAndAddOnlyNumber(StringBuilder negativeNumber, StringBuilder onlyPositiveNumber,
-      String consoleInput) throws Exception {
-    Character prevChar = ' ';
-    onlyPositiveNumber.append("0");
-
-    for (Character inputChar : consoleInput.toCharArray()) {
-      prevChar = extractPositiveandNegativeNumbers(negativeNumber, onlyPositiveNumber, prevChar, inputChar);
-    }
-    calculateSum(onlyPositiveNumber);
-    throwExceptionforNegativeNumbers(negativeNumber);
-  }
-
-
-  /**
-   * @param negativeNumber
-   * @param onlyPositiveNumber
-   * @param prevChar
-   * @param inputChar
-   * @return
-   */
-  private static Character extractPositiveandNegativeNumbers(StringBuilder negativeNumber,
-      StringBuilder onlyPositiveNumber, Character prevChar, Character inputChar) {
-    if (isPostiveNumber(inputChar,prevChar)) {
-      appendPositiveNumbers(inputChar, prevChar, onlyPositiveNumber);
-    }
-    else if (isNegativeSign(prevChar)) {
-      negativeNumber.append(prevChar + inputChar + ',');
-    }
-    prevChar = inputChar;
-    return prevChar;
-  }
-
-  /**
-   * @param inputChar
-   * @param prevChar
-   * @return
-   */
-  private static boolean isPostiveNumber(Character inputChar, Character prevChar) {
-    return Character.isDigit(inputChar) && !isNegativeSign(prevChar);
-  }
-
-
-  /**
-   * @param onlyPositiveNumber
-   */
-  private static void calculateSum(StringBuilder onlyPositiveNumber) {
-    String[] positiveNumbers = onlyPositiveNumber.toString().split(",");
-    for (String positiveNumber : positiveNumbers) {
-      sum = sum + processIfGreaterThanThousand(Integer.parseInt(positiveNumber));
-    }
-
-  }
-
-
-  /**
-   * @param inputChar
-   * @param prevChar
-   * @param onlyPositiveNumber
-   */
-  private static void appendPositiveNumbers(Character inputChar, Character prevChar, StringBuilder onlyPositiveNumber) {
-
-    if (Character.isDigit(prevChar)) {
-      onlyPositiveNumber.append(inputChar);
+  private static void handleStringwithDelimiter(String inputString) {
+    Matcher matchString = Pattern.compile("//(.*)\n(.*)").matcher(inputString);
+    
+    if (matchString.find()) {
+      String stringWithNumber = inputString.substring(inputString.indexOf("\n") + 1);
+      String[] numberArray = getNumberArray("\\"+ matchString.group(1), stringWithNumber);
+      calculateSum(numberArray);
     }
     else {
-      onlyPositiveNumber.append("," + inputChar);
+      handleStringwithoutDelimeterSpecified(inputString);
     }
 
   }
 
+  /**
+   * @param inputString
+   */
+  private static void handleStringwithoutDelimeterSpecified(String inputString) {
+    String defaultDelimiter = ",|\n";
+    String[] numberArray = getNumberArray(defaultDelimiter, inputString);
+    calculateSum(numberArray);
+  }
 
   /**
-   * @param negativeNumber
-   * @throws Exception 
+   * @param numberArray
    */
-  private static void throwExceptionforNegativeNumbers(StringBuilder negativeNumber) throws Exception {
-    if (negativeNumber.length() > 0) {
-      throw new Exception("Given input has negative numbers " + negativeNumber.toString());
+  private static void calculateSum(String[] numberArray) {
+    for (String number : numberArray) {     
+      int num = Integer.parseInt(number);
+      checkForValidNumbers(num);
     }
-
-  }
-
-
-  public static boolean isNegativeSign(Character inputCharacter) {
-    return inputCharacter == '-';
   }
 
   /**
-   * @param i
-   * @return
+   * @param num
    */
-  private static int processIfGreaterThanThousand(int inputNumber) {
-    return inputNumber >= 1000 ? 0 : inputNumber;
+  private static void checkForValidNumbers(int num) {
+    if (!checkandStoreNegativenumbers(num) && (num < 1000)) {
+      sum = sum + num;
+    }
   }
-
 
   /**
-   * @param consoleInput
+   * @param num
    * @return
    */
-  private static boolean checkLengthEqualsOne(String consoleInput) {
-    return consoleInput.length() == 1;
+  private static boolean checkandStoreNegativenumbers(int num) {
+    if (num < 0) {
+      negativeNumList.add(num);
+      return true;
+    }
+    return false;
   }
+
+  /**
+   * @param defaultDelimiter
+   * @param inputString
+   * @return
+   */
+  private static String[] getNumberArray(String defaultDelimiter, String inputString) {
+    return inputString.split( defaultDelimiter + "+" );   
+  }
+
+
 
 }
