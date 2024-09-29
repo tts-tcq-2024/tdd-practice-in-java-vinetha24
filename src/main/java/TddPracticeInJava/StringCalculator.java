@@ -60,7 +60,7 @@ public class StringCalculator {
    */
   private static void calculateSum(String[] numberArray) {
     for (String numberObj : numberArray) {     
-      int number = Integer.parseInt(number);
+      int number = Integer.parseInt(numberObj);
       checkForValidNumbers(number);
     }
   }
