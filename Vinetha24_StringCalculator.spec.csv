@@ -1,0 +1,9 @@
+﻿TestId,TestName,Description,Input,Expectedresults
+TC1,testEmptyString,Test with empty string it should return 0,"""""",0
+TC2,testwithNumberZero,"Test string calculator for "" 0""","""0""",0
+TC3,testWithStringwithoutDelimiter,Test string without explicity specified the delimiter,"""1,5""",6
+TC4,testStringWithSpecifiedDelimiter,Test string with explicit delimiter,"""//*\n1*4",5
+TC5,testWithMultipleNumber,Test string contains more than 2 numbers,"""1,2,3""",6
+TC6,testWithNegativeNumbers,"If the String contains negative numbers,should display the negative numbers and throw Exception","""-1,2,3""",Exception
+TC7,testStringWithNumberAboveThousand,"If the String contains number above1000,it should not include the number in calculating sum","""1000,4""",4
+TC8,testStringWithDifferentLengthofDelimiter,"If the String contains delimiter of any length,it should extract the numbers properly and calculate sum","""//*\n3****14",17
