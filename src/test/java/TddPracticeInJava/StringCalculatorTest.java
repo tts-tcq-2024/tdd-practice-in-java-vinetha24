@@ -8,7 +8,7 @@ public class StringCalculatorTest {
 
     
     @Test
-    public void ExpectZeroForEmptyInput()
+    public void ExpectZeroForEmptyInput() throws Exception
     {
         int expectedResult = 0;
         String input = "";
@@ -19,7 +19,7 @@ public class StringCalculatorTest {
     }
 
   @Test
-    public void ExpectZeroForSingleZero()
+    public void ExpectZeroForSingleZero() throws Exception
     {
         int expectedResult = 0;
         String input = "0";
@@ -30,7 +30,7 @@ public class StringCalculatorTest {
     }
 
    @Test
-    public void ExpectSumForTwoNumbers()
+    public void ExpectSumForTwoNumbers() throws Exception
     {
         int expectedResult = 3;
         String input = "1,2";
@@ -40,7 +40,7 @@ public class StringCalculatorTest {
     }
 
    @Test
-    public void ExpectSumWithNewlineDelimiter()
+    public void ExpectSumWithNewlineDelimiter() throws Exception
     {
         int expectedResult = 6;
         String input = "1\n2,3";
@@ -51,7 +51,7 @@ public class StringCalculatorTest {
 
  
     @Test
-    public void ignoreNumbersGreaterThan1000() {
+    public void ignoreNumbersGreaterThan1000() throws Exception {
         int expectedResult = 1;
         String input = "1,1001";
         StringCalculator objUnderTest = new StringCalculator();
@@ -60,7 +60,7 @@ public class StringCalculatorTest {
        assertEquals(expectedResult,result);
     }
     @Test
-    public void ExpectSumWithCustomDelimiter()
+    public void ExpectSumWithCustomDelimiter() throws Exception
     {
         int expectedResult = 3;
         String input = "//;\n1;2";
@@ -68,5 +68,24 @@ public class StringCalculatorTest {
         int result = objUnderTest.add(input);
 
       assertEquals(expectedResult,result);
+    }
+    
+    @Test(expected = Exception.class)
+    public void ExpectSumWithNegativeNumber() throws Exception
+    {
+       
+        String input = "-1";
+        StringCalculator objUnderTest = new StringCalculator();
+         objUnderTest.add(input);
+
+    }
+    @Test
+    public void ExpectSumWithAnyDelimiterLength() throws Exception{
+      int expectedResult = 15;
+      String input = "//*\n12***3";
+      StringCalculator objUnderTest = new StringCalculator();
+      int result = objUnderTest.add(input);
+
+    assertEquals(expectedResult,result);
     }
 }
